@@ -15,11 +15,11 @@ def variance_norm(k, i):
     variance = numpy.var(k[i])
     makhraj_sum = 0
     makhraj_count = 0
+
     for i_t, t in enumerate(previous_clean_data):
         if XC(i_t, i):
             makhraj_sum += numpy.var(t)
             makhraj_count += 1
-
 
     if not makhraj_count == 0:
         makhraj = makhraj_sum/makhraj_count
@@ -43,6 +43,21 @@ def f_L(k,i,j):
 
 def d(k, i, j):
     return max(variance_norm(k,i) - variance_norm(k,j))
+
+def n_distance(k, p, n):
+    # n is k in k-distance
+    distance_list = [{i: d(k, p, i)} for i, _ in enumerate(k) if p != i]
+    distance_list = sorted(distance_list, key=lambda d: next(iter(d.values())))
+
+    return distance_list[n-1]
+
+def n_nearest_nighbord(k, p, n):
+    # n is k in k-nn
+    distance_list = [{i: d(k, p, i)} for i, _ in enumerate(k) if p != i]
+    distance_list = sorted(distance_list, key=lambda d: next(iter(d.values())))
+
+    return distance_list[:n]
+
 
 
 print(LOF(l))
