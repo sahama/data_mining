@@ -556,6 +556,7 @@ def findsubsets(S):
 cursor = 0
 
 while cursor < len(data_stream[0]):
+    print('period {0}'.format(int(cursor/k_i_len)))
     k = [c[cursor:cursor + k_i_len] for c in data_stream]
     tmp_previous_channels_data = []
     tmp_previous_clean_data = []
@@ -570,19 +571,15 @@ while cursor < len(data_stream[0]):
                 tmp_previous_clean_data.append(k[c])
                 clean_tag = True
         else:
-            print(k[c][0], lof(k, c, min_pts))
-            print(previous_channels_data[c])
+            print('bad data in channel {0} in this period'.format(c))
             if all([not i for i in previous_channels_data[c]]):
-                print(c , 'bad channel')
+                print('bad channel {} based on previous data'.format(c))
             tmp_previous_channels_data[c].append([])
 
     for c, value in enumerate(tmp_previous_channels_data):
         previous_channels_data[c] += value
 
     previous_clean_data += tmp_previous_clean_data
-
-
-
 
 
 
